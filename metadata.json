@@ -1,0 +1,6 @@
+{
+  "name": "IWS Online School Modern Redesign",
+  "description": "Modern, yüksek dönüşüm odaklı ve kullanıcı dostu bir IGCSE Matematik eğitim platformu tasarımı.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
