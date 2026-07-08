@@ -88,7 +88,7 @@ export default function Cart() {
                     </button>
                   </div>
                   
-                  <p className="text-slate-600 text-sm mb-6 max-w-md">Comprehensive preparation for the Cambridge IGCSE examination with live classes and interactive resources.</p>
+                  <p className="text-slate-600 text-sm mb-6 max-w-md">Comprehensive preparation for the Cambridge IGCSE examination with expert-designed materials and interactive resources.</p>
 
                   <div className="mt-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     {/* Quantity Selector */}

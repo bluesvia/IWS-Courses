@@ -1,6 +1,7 @@
 import React from 'react';
 import { Globe, GraduationCap, Presentation, HeartHandshake, Check, Award } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { useContent } from '../../contexts/ContentContext';
 
 interface WhyChooseIWSProps {
   variant?: 'homepage' | 'course';
@@ -8,74 +9,32 @@ interface WhyChooseIWSProps {
 
 export default function WhyChooseIWS({ variant = 'homepage' }: WhyChooseIWSProps) {
   const isHomepage = variant === 'homepage';
+  const { content } = useContent();
+  const data = content.whyChooseIws;
 
-  const title = isHomepage ? "Why Choose IWS Online School?" : "Why learn with IWS?";
+  const title = isHomepage ? data.titleHomepage : data.titleCourse;
   
   const introText = isHomepage 
-    ? "IWS Online School combines British online education, Cambridge curriculum pathways and live teacher-led support to help students aged 7–19 learn with confidence from anywhere in the world."
-    : "IWS Online School combines British online education, Cambridge curriculum pathways and live teacher-led support to help students learn with confidence from anywhere in the world.";
+    ? data.introHomepage
+    : data.introCourse;
 
   type CardData = { icon: React.ReactNode; title: string; text: string; bullets?: string[] };
-  const homepageCards: CardData[] = [
-    {
-      icon: <Globe size={26} strokeWidth={1.5} />,
-      title: "Flexible British Online Learning",
-      text: "Study from anywhere through a structured British online school model designed for modern international families.",
-      bullets: [
-        "Learn from home or abroad",
-        "Suitable for ages 7–19",
-        "Flexible learning pathways"
-      ]
-    },
-    {
-      icon: <Award size={26} strokeWidth={1.5} />,
-      title: "Cambridge Curriculum Pathways",
-      text: "Follow a clear academic pathway from Primary and Lower Secondary through to IGCSE and A Level study.",
-      bullets: [
-        "Primary to A Level progression",
-        "IGCSE and A Level options",
-        "Clear academic structure"
-      ]
-    },
-    {
-      icon: <Presentation size={26} strokeWidth={1.5} />,
-      title: "Live Teacher-Led Lessons",
-      text: "Students learn through live online lessons and guided support from experienced teachers who help them stay confident and engaged.",
-      bullets: [
-        "Interactive online classes",
-        "Teacher guidance and support",
-        "Personal learning attention"
-      ]
-    },
-    {
-      icon: <HeartHandshake size={26} strokeWidth={1.5} />,
-      title: "Supportive Online Community",
-      text: "A connected school environment where students receive encouragement, guidance and support throughout their learning journey.",
-      bullets: [
-        "Friendly learning environment",
-        "Student-focused support",
-        "Confidence and independence"
-      ]
-    }
-  ];
+  
+  // Attach icons to dynamic cards
+  const homepageCards: CardData[] = (data.homepageCards || []).map((card: any, idx: number) => ({
+    ...card,
+    icon: idx === 0 ? <Globe size={26} strokeWidth={1.5} /> :
+          idx === 1 ? <Award size={26} strokeWidth={1.5} /> :
+          idx === 2 ? <Presentation size={26} strokeWidth={1.5} /> :
+          <HeartHandshake size={26} strokeWidth={1.5} />
+  }));
 
-  const courseCards: CardData[] = [
-    {
-      icon: <Award size={26} strokeWidth={1.5} />,
-      title: "Cambridge Curriculum Pathways",
-      text: "A structured academic route supporting students from Primary through to IGCSE and A Level."
-    },
-    {
-      icon: <Presentation size={26} strokeWidth={1.5} />,
-      title: "Live Online Teacher Support",
-      text: "Students receive guidance through live lessons, learning resources and teacher-led support."
-    },
-    {
-      icon: <Globe size={26} strokeWidth={1.5} />,
-      title: "Flexible Learning From Anywhere",
-      text: "A modern online experience designed for international families and different learning needs."
-    }
-  ];
+  const courseCards: CardData[] = (data.courseCards || []).map((card: any, idx: number) => ({
+    ...card,
+    icon: idx === 0 ? <Award size={26} strokeWidth={1.5} /> :
+          idx === 1 ? <Presentation size={26} strokeWidth={1.5} /> :
+          <Globe size={26} strokeWidth={1.5} />
+  }));
 
   const cards = isHomepage ? homepageCards : courseCards;
 

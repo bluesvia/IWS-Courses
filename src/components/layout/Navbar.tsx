@@ -4,58 +4,60 @@ import { Menu, X, ArrowRight, GraduationCap, ChevronDown, ChevronRight, LogOut }
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../contexts/AuthContext';
+import { useContent } from '../../contexts/ContentContext';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const location = useLocation();
   const { isLoggedIn, logout } = useAuth();
+  const { content } = useContent();
 
   const isCoursePage = location.pathname.includes('/course/');
   const isHomePage = location.pathname === '/';
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { 
-      name: 'Courses', 
-      path: '/courses',
-      dropdown: [
-        {
-          group: 'GCSEs',
-          items: [
-            { name: 'Foundation Mathematics', path: '/course/math' },
-            { name: 'Higher Mathematics', path: '#', comingSoon: true }
-          ]
-        },
-        {
-          group: 'A-Levels',
-          items: [
-            { name: 'Courses Coming Soon', path: '#', comingSoon: true }
-          ]
-        },
-        {
-          group: 'Primary',
-          items: [
-            { name: 'Courses Coming Soon', path: '#', comingSoon: true }
-          ]
-        },
-        {
-          group: 'Secondary',
-          items: [
-            { name: 'Courses Coming Soon', path: '#', comingSoon: true }
-          ]
-        },
-        {
-          group: 'Uni Foundation',
-          items: [
-            { name: 'Courses Coming Soon', path: '#', comingSoon: true }
-          ]
-        }
-      ]
-    },
-    { name: 'How It Works', path: '/how-it-works' },
-    { name: 'About Us', path: '/about' },
-  ];
+  const navLinks = content.navigation.map(link => {
+    if (link.url === '/courses' || link.label.toLowerCase() === 'courses') {
+      return {
+        name: link.label,
+        path: link.url,
+        dropdown: [
+          {
+            group: 'GCSEs',
+            items: [
+              { name: 'Foundation Mathematics', path: '/course/math' },
+              { name: 'Higher Mathematics', path: '#', comingSoon: true }
+            ]
+          },
+          {
+            group: 'A-Levels',
+            items: [
+              { name: 'Courses Coming Soon', path: '#', comingSoon: true }
+            ]
+          },
+          {
+            group: 'Primary',
+            items: [
+              { name: 'Courses Coming Soon', path: '#', comingSoon: true }
+            ]
+          },
+          {
+            group: 'Secondary',
+            items: [
+              { name: 'Courses Coming Soon', path: '#', comingSoon: true }
+            ]
+          },
+          {
+            group: 'Uni Foundation',
+            items: [
+              { name: 'Courses Coming Soon', path: '#', comingSoon: true }
+            ]
+          }
+        ]
+      };
+    }
+    return { name: link.label, path: link.url };
+  });
 
   const scrollToAnchor = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
     if (path.startsWith('#') && isCoursePage) {
@@ -368,6 +370,17 @@ export default function Navbar() {
                   >
                     Cart
                   </Link>
+
+                  {/* Cambridge Partner Mobile Badge */}
+                  <div className={cn(
+                    "mt-2 p-4 rounded-xl flex flex-col items-center justify-center text-center gap-2 border",
+                    isHomePage ? "bg-white/5 border-white/10" : "bg-blue-50/50 border-blue-100"
+                  )}>
+                     <span className={cn(
+                        "text-[11px] font-bold uppercase tracking-[0.15em] leading-relaxed",
+                        isHomePage ? "text-slate-300" : "text-[#0a1776]"
+                     )}>Cambridge Approved<br/>Curriculum Partner</span>
+                  </div>
                 </div>
               </div>
             </motion.div>

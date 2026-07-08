@@ -17,195 +17,184 @@ import {
   FolderOpen
 } from 'lucide-react';
 import CalendlyEmbed from '../components/CalendlyEmbed';
+import { useContent } from '../contexts/ContentContext';
 
 export default function HowItWorks() {
   const [showTopCalendly, setShowTopCalendly] = useState(false);
   const [showBottomCalendly, setShowBottomCalendly] = useState(false);
-  const steps = [
-    {
-      title: "Choose the right course",
-      description: "Families select the course or programme that matches the student’s age, level and academic goal.",
-      icon: <BookOpen className="w-6 h-6" />
-    },
-    {
-      title: "Enrol online",
-      description: "Parents complete the enrolment or enquiry process online. For selected courses, payment and access can be completed directly.",
-      icon: <Laptop className="w-6 h-6" />
-    },
-    {
-      title: "Get access to the learning platform",
-      description: "Students receive access to the IWS learning platform, where course materials, lesson links, resources and important information are organised.",
-      icon: <FolderOpen className="w-6 h-6" />
-    },
-    {
-      title: "Learn with support",
-      description: "Depending on the course type, students join live lessons, complete guided activities, access learning materials and receive teacher support.",
-      icon: <Users className="w-6 h-6" />
-    },
-    {
-      title: "Track progress and prepare for next steps",
-      description: "Students and parents can follow progress, understand upcoming tasks and receive guidance for assessments, exams or future study.",
-      icon: <TrendingUp className="w-6 h-6" />
-    }
-  ];
+  const { content } = useContent();
 
-  const studentFeatures = [
-    "Online course materials",
-    "Live or guided lessons depending on the course",
-    "Learning resources",
-    "Teacher support",
-    "Lesson links and updates",
-    "Progress guidance",
-    "Clear next steps after enrolment"
-  ];
-
-  const parentFeatures = [
-    "How enrolment works",
-    "What happens after payment",
-    "How the child accesses lessons",
-    "How the learning platform works",
-    "How support is provided",
-    "Who to contact if help is needed",
-    "How the student’s progress can be followed"
-  ];
-
-  const learningFormats = [
-    {
-      title: "Live Learning",
-      description: "Scheduled online lessons with teachers.",
-      icon: <CalendarCheck className="w-6 h-6 text-blue-600" />
-    },
-    {
-      title: "Hybrid Learning",
-      description: "A mix of live sessions, guided study and independent learning.",
-      icon: <Users className="w-6 h-6 text-purple-600" />
-    },
-    {
-      title: "Self-Paced Learning",
-      description: "Flexible access to course materials with support where available.",
-      icon: <MonitorPlay className="w-6 h-6 text-emerald-600" />
-    }
-  ];
-
-  const faqs = [
-    "What happens after I enrol?",
-    "How does my child access the course?",
-    "Are lessons live or recorded?",
-    "Can parents track progress?",
-    "What support is available?",
-    "What if we need help logging in?",
-    "How do payments work?",
-    "Is the learning platform easy to use?",
-    "Can students study from outside the UK?",
-    "Who should I contact if I am unsure which course is right?"
-  ];
+  const steps = content.howItWorks.steps || [];
+  const studentFeatures = content.howItWorks.studentFeatures || [];
+  const parentFeatures = content.howItWorks.parentFeatures || [];
+  const learningFormats = content.howItWorks.learningFormats || [];
+  const faqs = content.howItWorks.faqs || [];
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-32 pb-24">
+    <div className="pt-24 bg-[#fafafa]">
       {/* 1. Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 text-center">
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-slate-900 mb-6 tracking-tight"
-        >
-          How online learning works at IWS
-        </motion.h1>
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-10 leading-relaxed"
-        >
-          A clear, supported learning journey from enrolment to online lessons, course materials, progress tracking and next steps.
-        </motion.p>
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <button 
-            onClick={() => setShowTopCalendly(!showTopCalendly)}
-            className="px-8 py-4 bg-[#0a1776] text-white rounded-full font-medium hover:bg-[#0a1776]/90 transition-colors flex items-center gap-2 w-full sm:w-auto justify-center"
-          >
-            <Phone size={20} />
-            {showTopCalendly ? 'Close Calendar' : 'Book a call'}
-          </button>
-          <Link to="/courses" className="px-8 py-4 bg-white text-slate-900 border border-slate-200 rounded-full font-medium hover:border-slate-300 hover:bg-slate-50 transition-colors flex items-center gap-2 w-full sm:w-auto justify-center">
-            Explore courses
-            <ArrowRight size={20} />
-          </Link>
-        </motion.div>
+      <section className="relative overflow-hidden bg-[#0a1776] text-white">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={content.howItWorks.heroImageUrl || undefined}
+            alt="Students learning online" 
+            className="w-full h-full object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1776] to-[#0a1776]/80"></div>
+        </div>
 
-        <AnimatePresence>
-          {showTopCalendly && (
-            <motion.div 
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="w-full max-w-5xl mx-auto overflow-hidden"
-            >
-              <CalendlyEmbed />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20 lg:py-32">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl lg:text-6xl font-display font-bold mb-6 leading-tight">
+              {content.howItWorks.title}
+            </h1>
+            <p className="text-xl text-blue-100 mb-10 max-w-2xl leading-relaxed">
+              {content.howItWorks.subtitle}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button 
+                onClick={() => setShowTopCalendly(!showTopCalendly)}
+                className="px-8 py-4 bg-white text-[#0a1776] rounded-full font-bold hover:bg-slate-50 transition-colors"
+              >
+                {showTopCalendly ? 'Close Calendar' : 'Book a discovery call'}
+              </button>
+              <Link to="/courses" className="px-8 py-4 bg-transparent border-2 border-white/30 text-white rounded-full font-bold hover:bg-white/10 transition-colors text-center">
+                Explore courses
+              </Link>
+            </div>
+            
+            <AnimatePresence>
+              {showTopCalendly && (
+                <motion.div 
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="mt-8 overflow-hidden rounded-2xl"
+                >
+                  <CalendlyEmbed />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </section>
 
-      {/* 2. Simple 5-Step Process Section */}
-      <section className="bg-white py-24 border-y border-slate-200">
+      {/* 2. Overview of the Journey (5 Steps) */}
+      <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-slate-900 mb-4">The Student Journey</h2>
+          <p className="text-slate-600 max-w-2xl mx-auto text-lg">From choosing a course to achieving academic goals, here is what to expect.</p>
+        </div>
+
+        <div className="grid md:grid-cols-5 gap-8 relative">
+          <div className="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-slate-200 z-0"></div>
+          {steps.map((step, index) => (
+            <div key={index} className="relative z-10 flex flex-col items-center text-center">
+              <div className="w-24 h-24 rounded-full bg-white shadow-xl shadow-blue-900/5 flex items-center justify-center text-[#0a1776] mb-6 border border-slate-100">
+                <span className="text-2xl font-bold">{index + 1}</span>
+              </div>
+              <h3 className="font-bold text-lg text-slate-900 mb-3">{step.title}</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">{step.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 3. The Details (Enrolment & Platform Access) */}
+      <section className="py-24 bg-slate-50 border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-slate-900 mb-4">A simple journey from enrolment to learning</h2>
-          </div>
-          
-          <div className="max-w-4xl mx-auto">
-            {steps.map((step, index) => (
-              <div key={index} className="flex gap-6 mb-12 last:mb-0">
-                <div className="flex flex-col items-center">
-                  <div className="w-12 h-12 rounded-full bg-blue-50 text-[#0a1776] flex items-center justify-center font-bold text-lg shrink-0 border border-blue-100 shadow-sm relative z-10">
-                    {index + 1}
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-slate-900 mb-6">Simple enrolment process</h2>
+              <p className="text-lg text-slate-600 mb-8 leading-relaxed">
+                Parents can complete the process online. Upon enrolment, an account is automatically created on the IWS learning platform, giving the student access to their courses.
+              </p>
+              
+              <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                <h3 className="font-bold text-xl text-[#0a1776] mb-6">What to expect:</h3>
+                <div className="space-y-6">
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0 text-[#0a1776]">1</div>
+                    <div>
+                      <h4 className="font-bold text-slate-900">Select course</h4>
+                      <p className="text-slate-600 text-sm mt-1">Choose the required subjects and level.</p>
+                    </div>
                   </div>
-                  {index < steps.length - 1 && (
-                    <div className="w-px h-full bg-slate-200 my-2"></div>
-                  )}
-                </div>
-                <div className="pt-2">
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">{step.title}</h3>
-                  <p className="text-slate-600 leading-relaxed">{step.description}</p>
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0 text-[#0a1776]">2</div>
+                    <div>
+                      <h4 className="font-bold text-slate-900">Provide details</h4>
+                      <p className="text-slate-600 text-sm mt-1">Fill in the necessary student information.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0 text-[#0a1776]">3</div>
+                    <div>
+                      <h4 className="font-bold text-slate-900">Gain access</h4>
+                      <p className="text-slate-600 text-sm mt-1">Receive platform login credentials and start learning.</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            ))}
+            </div>
+            
+            <div className="relative">
+              <div className="aspect-[4/3] rounded-[2rem] overflow-hidden">
+                <img 
+                  src="/Slide_3.webp" 
+                  alt="Student using platform" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-8 -left-8 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 max-w-xs hidden md:block">
+                <div className="flex items-center gap-4 mb-2">
+                  <CheckCircle2 className="text-emerald-500" />
+                  <span className="font-bold text-slate-900">Instant Access</span>
+                </div>
+                <p className="text-sm text-slate-600">Start learning immediately upon successful enrolment.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 3 & 4. What Students Get & What Parents Need to Know */}
+      {/* 4. Feature Lists (What do parents vs students see?) */}
       <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
-          {/* Students */}
-          <div className="bg-white p-8 lg:p-10 rounded-[2.5rem] shadow-sm border border-slate-200">
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">Everything students need to start learning</h2>
-            <p className="text-slate-500 mb-8">Students can access:</p>
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-slate-900 mb-4">Clarity for everyone</h2>
+          <p className="text-slate-600 max-w-2xl mx-auto text-lg">We make sure both students and parents know exactly what to do.</p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* For Students */}
+          <div className="bg-white rounded-[2rem] p-8 md:p-12 shadow-sm border border-slate-200 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-bl-full -z-10 opacity-50"></div>
+            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-[#0a1776] mb-6">
+              <BookOpen size={24} />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 mb-6">For Students</h3>
             <ul className="space-y-4">
               {studentFeatures.map((feature, idx) => (
-                <li key={idx} className="flex items-start gap-4 text-slate-700">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-500 shrink-0" />
-                  <span className="leading-snug pt-0.5">{feature}</span>
+                <li key={idx} className="flex items-start gap-3">
+                  <CheckCircle2 className="w-6 h-6 text-[#0a1776] shrink-0" />
+                  <span className="text-slate-700">{feature}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Parents */}
-          <div className="bg-slate-900 text-white p-8 lg:p-10 rounded-[2.5rem] shadow-xl">
-            <h2 className="text-2xl font-bold text-white mb-2">Clear information for parents</h2>
-            <p className="text-slate-400 mb-8">Parents should understand:</p>
+          {/* For Parents */}
+          <div className="bg-white rounded-[2rem] p-8 md:p-12 shadow-sm border border-slate-200 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-bl-full -z-10 opacity-50"></div>
+            <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center text-slate-700 mb-6">
+              <Users size={24} />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 mb-6">For Parents</h3>
             <ul className="space-y-4">
               {parentFeatures.map((feature, idx) => (
-                <li key={idx} className="flex items-start gap-4 text-slate-300">
-                  <CheckCircle2 className="w-6 h-6 text-blue-400 shrink-0" />
-                  <span className="leading-snug pt-0.5">{feature}</span>
+                <li key={idx} className="flex items-start gap-3">
+                  <CheckCircle2 className="w-6 h-6 text-slate-400 shrink-0" />
+                  <span className="text-slate-700">{feature}</span>
                 </li>
               ))}
             </ul>
@@ -213,7 +202,7 @@ export default function HowItWorks() {
         </div>
       </section>
 
-      {/* 5. Learning Formats */}
+      {/* 5. Differentiating Formats */}
       <section className="py-24 bg-white border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -224,10 +213,10 @@ export default function HowItWorks() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {learningFormats.map((format, idx) => (
+            {learningFormats.map((format: any, idx: number) => (
               <div key={idx} className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100">
                 <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center justify-center mb-6">
-                  {format.icon}
+                  {idx === 0 ? <CalendarCheck className="w-6 h-6 text-blue-600" /> : idx === 1 ? <Users className="w-6 h-6 text-purple-600" /> : <MonitorPlay className="w-6 h-6 text-emerald-600" />}
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-3">{format.title}</h3>
                 <p className="text-slate-600">{format.description}</p>
@@ -324,6 +313,7 @@ export default function HowItWorks() {
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-display font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
         </div>
+
         <div className="space-y-4">
           {faqs.map((faq, idx) => (
             <div key={idx} className="p-6 bg-white rounded-2xl shadow-sm border border-slate-200 flex justify-between items-center cursor-pointer hover:border-slate-300 transition-colors">
@@ -344,6 +334,7 @@ export default function HowItWorks() {
         <p className="text-lg text-slate-600 mb-10 leading-relaxed">
           Speak with our admissions team and we'll help you choose the right pathway for your child.
         </p>
+        
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
           <button 
             onClick={() => setShowBottomCalendly(!showBottomCalendly)}

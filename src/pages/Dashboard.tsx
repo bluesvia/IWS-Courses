@@ -20,7 +20,7 @@ export default function Dashboard() {
       accent: "bg-[#ff9600]", // Orange
       patternColor: "text-slate-700",
       imageUrl: "/math_board.webp",
-      description: "Access your weekly modules, live lesson recordings, interactive quizzes and teacher feedback on the learning platform.",
+      description: "Access your weekly modules, structured lesson materials, interactive quizzes and teacher feedback on the learning platform.",
       bullets: [
         "Functions and Graphs methodologies",
         "Algebraic manipulations",
@@ -208,7 +208,7 @@ export default function Dashboard() {
                   >
                     {/* Abstract decorative elements / Background Image */}
                     <div className="absolute inset-0 z-0">
-                       <img src={course.imageUrl} alt={course.title} className="w-full h-full object-cover opacity-40 mix-blend-overlay" />
+                       <img src={course.imageUrl || undefined} alt={course.title} className="w-full h-full object-cover opacity-40 mix-blend-overlay" />
                     </div>
                     <div className={cn("absolute inset-0 opacity-[0.15] pointer-events-none z-0", course.patternColor)} style={{ backgroundImage: 'radial-gradient(circle at 4px 4px, currentColor 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
                     
@@ -240,7 +240,7 @@ export default function Dashboard() {
                  <div className={cn("aspect-square rounded-2xl mb-6 relative overflow-hidden", selectedCourse.color)}>
                     {/* Background image for right panel */}
                     <div className="absolute inset-0 z-0">
-                       <img src={selectedCourse.imageUrl} alt={selectedCourse.title} className="w-full h-full object-cover opacity-50 mix-blend-overlay" />
+                       <img src={selectedCourse.imageUrl || undefined} alt={selectedCourse.title} className="w-full h-full object-cover opacity-50 mix-blend-overlay" />
                     </div>
                     {/* Decorative abstract pattern for the header */}
                     <div className="absolute inset-0 opacity-20 mix-blend-overlay z-0" style={{ backgroundImage: 'radial-gradient(circle at 4px 4px, white 2px, transparent 0)', backgroundSize: '32px 32px' }}></div>
@@ -294,7 +294,7 @@ export default function Dashboard() {
             <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
               <div className="p-8 border-b border-slate-100 flex flex-col sm:flex-row items-start sm:items-center gap-6">
                 {profile.avatarUrl ? (
-                  <img src={profile.avatarUrl} alt="Profile" className="w-24 h-24 rounded-full object-cover border-4 border-slate-50" />
+                  <img src={profile.avatarUrl || undefined} alt="Profile" className="w-24 h-24 rounded-full object-cover border-4 border-slate-50" />
                 ) : (
                   <div className="w-24 h-24 bg-blue-50 text-[#0a1776] rounded-full flex items-center justify-center text-3xl font-bold">
                     {profile.firstName.charAt(0)}{profile.lastName.charAt(0)}

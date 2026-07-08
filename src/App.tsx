@@ -25,8 +25,15 @@ import SalesAgreement from './pages/SalesAgreement';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import FAQ from './pages/FAQ';
+import DynamicPage from './pages/DynamicPage';
+import PartnerBadge from './components/layout/PartnerBadge';
 import { useEffect } from 'react';
 import { AuthProvider } from './contexts/AuthContext';
+import { ContentProvider } from './contexts/ContentContext';
+import { UserProvider } from './contexts/UserContext';
+import AdminApp from './pages/admin/AdminApp';
+
+import { CourseProvider } from './contexts/CourseContext';
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -39,36 +46,54 @@ function ScrollToTop() {
   return null;
 }
 
+function MainLayout() {
+  return (
+    <div className="font-sans text-slate-900 bg-[#fafafa]">
+      <PartnerBadge />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
+        <Route path="/book-a-call" element={<BookACall />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/course/:id" element={<Course />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/thank-you" element={<ThankYou />} />
+        <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/sales-agreement" element={<SalesAgreement />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/:path" element={<DynamicPage />} />
+      </Routes>
+      <Newsletter />
+      <Footer />
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <AuthProvider>
-      <Router>
-        <ScrollToTop />
-        <div className="font-sans text-slate-900 bg-[#fafafa]">
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/book-a-call" element={<BookACall />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/course/math" element={<Course />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/thank-you" element={<ThankYou />} />
-            <Route path="/onboarding" element={<Onboarding />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/sales-agreement" element={<SalesAgreement />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/faq" element={<FAQ />} />
-          </Routes>
-          <Newsletter />
-          <Footer />
-        </div>
-      </Router>
+      <ContentProvider>
+        <CourseProvider>
+          <UserProvider>
+            <Router>
+              <ScrollToTop />
+              <Routes>
+                <Route path="/admin/*" element={<AdminApp />} />
+                <Route path="/*" element={<MainLayout />} />
+              </Routes>
+            </Router>
+          </UserProvider>
+        </CourseProvider>
+      </ContentProvider>
     </AuthProvider>
   );
 }
